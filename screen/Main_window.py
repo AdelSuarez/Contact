@@ -1,10 +1,11 @@
+from ast import Str
 from db.add_contact import Add_contact
 from db.get_all_contacts import Get_all_contacts
+from db.select_contact import Select_contact
 import tkinter as tk
-from tkinter import CENTER, ttk
+from tkinter import StringVar, ttk
 from style import style
 from PIL import ImageTk, Image
-from db.get_all_contacts import Get_all_contacts
 
 class Main_windows(tk.Frame):
     def __init__(self, *args, **kwargs):
@@ -48,22 +49,31 @@ class Main_windows(tk.Frame):
         # - Contact display -
         self.container_contact = tk.LabelFrame(self.frame_contact, text='Contacto')
         self.container_contact.columnconfigure(1, weight=1)
+
+        name = StringVar()
+        phone = StringVar()
+        email = StringVar()
         
         self.container_name = tk.LabelFrame(self.container_contact, text='Nombre: ')
         self.container_name.columnconfigure(0, weight=1)
-        tk.Label(self.container_name, text='').grid(row=0, column=0)
+        tk.Label(self.container_name, textvariable=name).grid(row=0, column=0)
         self.container_name.grid(row=0, column=0, padx=20, sticky=tk.NSEW, columnspan=2)
         
         tk.Label(self.container_contact, text='Número: ').grid(row=1, column=0, padx=20, sticky=tk.W)
+        tk.Label(self.container_contact, textvariable=phone).grid(row=1, column=1, padx=20, sticky=tk.E)
         tk.Label(self.container_contact, text='Email: ').grid(row=2, column=0, padx=20, sticky=tk.W)
+        tk.Label(self.container_contact, textvariable=email).grid(row=2, column=1, padx=20, sticky=tk.E)
 
         self.container_buttons = tk.Frame(self.container_contact)
         self.container_buttons.columnconfigure(0, weight=1)
         self.container_buttons.columnconfigure(1, weight=1)
+        self.container_buttons.columnconfigure(2, weight=1)
 
-        tk.Button(self.container_buttons, text='Editar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc8400' , bg='#FFA500', command=lambda:Get_all_contacts(self.tree), width=10).grid(row=0, column=0, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_buttons, text='Ver', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#006600' , bg='#008000', command=lambda:Select_contact(name, phone, email, self.tree), width=10).grid(row=0, column=0, padx=5, sticky=tk.NSEW)
 
-        tk.Button(self.container_buttons, text='Eliminar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc0000' , bg='#FF0000', command=lambda:print('eliminar'), width=10).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_buttons, text='Editar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc8400' , bg='#FFA500', command=lambda:Get_all_contacts(self.tree), width=10).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+
+        tk.Button(self.container_buttons, text='Eliminar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc0000' , bg='#FF0000', command=lambda:print('Eliminar'), width=10).grid(row=0, column=2, padx=5, sticky=tk.NSEW)
         
         self.container_buttons.grid(row=4, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
         self.container_contact.grid(row=3, column=0, sticky=tk.NSEW, padx=10)
@@ -104,6 +114,7 @@ class Main_windows(tk.Frame):
         self.table.grid(row=0, column=2, sticky=tk.NSEW)
 
         Get_all_contacts(self.tree)
+  
 
     
     def window_settings(self):

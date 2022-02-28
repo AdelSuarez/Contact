@@ -1,5 +1,5 @@
 from db.Database import session
-from db.models import contact_list
+from db.models import Contact_list
 
 class Get_all_contacts:
     def __init__(self, tree):
@@ -8,11 +8,9 @@ class Get_all_contacts:
 
 
     def get_contacts(self):
-        contacts = session.query(contact_list.contact_name, contact_list.contact_phone).all()
+        contacts = session.query(Contact_list.contact_name, Contact_list.contact_phone).all()
 
-        self.records = self._tree.get_children()
-        for element in self.records:
-            self._tree.delete(element)
+        self.clear_tree()
 
         for contact in contacts:
             self._tree.insert('', 'end', text=contact[0], values=contact[1])
@@ -20,3 +18,8 @@ class Get_all_contacts:
         # tambien se puede hacer 
         # for (name, phone, email) in contacts:
         #     self._tree.insert('', 0, text=name, values=phone)
+
+    def clear_tree(self):        
+        self.all_contact = self._tree.get_children()
+        for contact in self.all_contact:
+            self._tree.delete(contact)

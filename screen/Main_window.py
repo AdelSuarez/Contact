@@ -1,7 +1,9 @@
-from ast import Str
 from db.add_contact import Add_contact
 from db.get_all_contacts import Get_all_contacts
 from db.select_contact import Select_contact
+from db.delete_contact import Delete_contact
+from db.update_contact import Update_contact
+from db.search_contact import Search_contact
 import tkinter as tk
 from tkinter import StringVar, ttk
 from style import style
@@ -26,7 +28,7 @@ class Main_windows(tk.Frame):
         # Text inputs
         name_label = tk.Label(self.container_inputs, text='Nombre: ')
         name_label.grid(row=0, column=0, sticky=tk.NSEW)
-        self.new_name = tk.Entry(self.container_inputs, width=20, )
+        self.new_name = tk.Entry(self.container_inputs, width=20)
         self.new_name.focus()
         self.new_name.grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
@@ -69,11 +71,12 @@ class Main_windows(tk.Frame):
         self.container_buttons.columnconfigure(1, weight=1)
         self.container_buttons.columnconfigure(2, weight=1)
 
-        tk.Button(self.container_buttons, text='Ver', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#006600' , bg='#008000', command=lambda:Select_contact(name, phone, email, self.tree), width=10).grid(row=0, column=0, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_buttons, text='Ver', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#006600' , bg='#008000', command=lambda:Select_contact(name, phone, email, self.button_edit, self.tree), width=10).grid(row=0, column=0, padx=5, sticky=tk.NSEW)
 
-        tk.Button(self.container_buttons, text='Editar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc8400' , bg='#FFA500', command=lambda:Get_all_contacts(self.tree), width=10).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+        self.button_edit = tk.Button(self.container_buttons, text='Editar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc8400' , bg='#FFA500', state=tk.DISABLED, command=lambda:Update_contact(self.tree), width=10)
+        self.button_edit.grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
-        tk.Button(self.container_buttons, text='Eliminar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc0000' , bg='#FF0000', command=lambda:print('Eliminar'), width=10).grid(row=0, column=2, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_buttons, text='Eliminar', **style.button_style, relief=tk.FLAT, overrelief=tk.RAISED, fg='#FFF', activeforeground='#FFF', activebackground='#cc0000' , bg='#FF0000', command=lambda:Delete_contact(name, phone, email, self.button_edit, self.tree), width=10).grid(row=0, column=2, padx=5, sticky=tk.NSEW)
         
         self.container_buttons.grid(row=4, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
         self.container_contact.grid(row=3, column=0, sticky=tk.NSEW, padx=10)
@@ -87,7 +90,7 @@ class Main_windows(tk.Frame):
         
         self.search = tk.Entry(self.container_search)
         self.search.grid(row=0, column=0, padx=5, sticky=tk.NSEW)
-        tk.Button(self.container_search, image=self.logo_img, bd=0, command=lambda:print('buscando')).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_search, image=self.logo_img, bd=0, command=lambda:Search_contact(self.search, name, phone, email)).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
         self.container_search.grid(row=4, column=0, pady=15, padx=10, sticky=tk.NSEW)
 

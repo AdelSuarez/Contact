@@ -1,32 +1,43 @@
+import tkinter as tk
 import tkinter.messagebox
 from db.Database import session
-from db.models import contact_list
+from db.models import Contact_list
+
 
 class Select_contact:
-    def __init__(self, name, phone, email, tree):
-        self._name = name
-        self._phone = phone
-        self._email = email
+    def __init__(self, name_label, phone_label, email_label, button_edit, tree):
+        self._button_edit = button_edit
+        self._name_label = name_label
+        self._phone_label = phone_label
+        self._email_label = email_label
         self._tree = tree
         self.get_contact()
 
     def get_contact(self):
+
         try:
             self._tree.item(self._tree.selection())['text'][0]
-        except IndexError:
+
+        except IndexError as err:
             tkinter.messagebox.showinfo(message='Debe seleccionar un contacto.', title='No hay seleccion.')
+        
         else:
-            name_db = self._tree.item(self._tree.selection())['text']
-            print(name_db)
+            if self._button_edit['state'] == tk.DISABLED:
+                self._button_edit['state'] = tk.NORMAL
 
-            contacts = session.query(contact_list.contact_name, contact_list.contact_phone, contact_list.contact_email).all()
+            name_select_tree = self._tree.item(self._tree.selection())['text']
+            print(name_select_tree)
 
-            for i in contacts:
-                if i[0] == name_db:
-                    self._name.set(i[0])
-                    self._phone.set(i[1])
-                    self._email.set(i[2])
-                    print(f'contacto\n{i[0]}\n{i[1]}')
+            contacts = session.query(Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
+            
+            for contact in contacts:
+                if contact[0] == name_select_tree:
+                    self._name_label.set(contact[0])
+                    self._phone_label.set(contact[1])
+                    self._email_label.set(contact[2])
+
+                    print(f'Contact:\nName:{contact[0]}\nPhone:{contact[1]}\nEmail:{contact[2]}')
+                    
                 
 
         

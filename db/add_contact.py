@@ -3,28 +3,25 @@ from db.Database import session
 import tkinter as tk
 import tkinter.messagebox
 from db.get_all_contacts import Get_all_contacts
+from components.Contact import Contact_entry
+from style import style
 
-class Add_contact:
+class Add_contact(Contact_entry):
     def __init__(self, name_entry, phone_entry, email_entry, name_label, phone_label, tree):
-        self._name_entry = name_entry
-        self._phone_entry = phone_entry
-        self._email_entry = email_entry
+        super().__init__(name_entry, phone_entry, email_entry)
         self.name_label = name_label
         self.phone_label = phone_label
         self._tree = tree
         self.add()
 
     def add(self):
-        name_entry_get = self._name_entry.get()
-        phone_entry_get = self._phone_entry.get()
+        if self.validate_empty_fields(self.get_name_entry):
+            self.name_label['fg'] = style.BLACK
 
-        if self.validate_empty_fields(name_entry_get):
-            self.name_label['fg'] = '#000'
+            if self.validate_empty_fields(self.get_phone_entry) and self.validate_empty_int(self.get_phone_entry):
+                self.phone_label['fg'] = style.BLACK
 
-            if self.validate_empty_fields(phone_entry_get) and self.validate_empty_int(phone_entry_get):
-                self.phone_label['fg'] = '#000'
-
-                contact = Contact_list(name_entry_get, phone_entry_get, self._email_entry.get())
+                contact = Contact_list(self.get_name_entry, self.get_phone_entry, self.get_email_entry)
                 session.add(contact)
                 print(repr(contact))
                 session.commit()
@@ -36,18 +33,12 @@ class Add_contact:
                 tkinter.messagebox.showinfo(message='Contacto creado', title='Contacto creado con exito')
 
             else:
-                self.phone_label['fg'] = 'red' 
+                self.phone_label['fg'] = style.RED 
         else:
-            self.name_label['fg'] = 'red'
+            self.name_label['fg'] = style.RED
             
-
     def validate_empty_fields(self, entry):
         return len(entry) != 0
-
-    def clear_inputs(self):
-        self._name_entry.delete(0, tk.END)
-        self._phone_entry.delete(0, tk.END)
-        self._email_entry.delete(0, tk.END)
 
     def validate_empty_int(self, phone):
         # Verify that the phone entered is numbers

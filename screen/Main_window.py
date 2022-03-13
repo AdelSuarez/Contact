@@ -90,7 +90,7 @@ class Main_windows(tk.Frame):
         
         self.search = tk.Entry(self.container_search)
         self.search.grid(row=0, column=0, padx=5, sticky=tk.NSEW)
-        tk.Button(self.container_search, image=self.logo_img, bd=0, command=lambda:Search_contact(self.search, name, phone, email)).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_search, image=self.logo_img, bd=0, command=lambda:Search_contact(self.search, name, phone, email, self.button_edit)).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
         self.container_search.grid(row=4, column=0, pady=15, padx=10, sticky=tk.NSEW)
 

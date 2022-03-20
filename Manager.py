@@ -17,4 +17,5 @@ class Manager(tk.Frame):
         self.rowconfigure(0, weight=1)
 
 
+
     

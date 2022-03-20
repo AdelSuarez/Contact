@@ -10,7 +10,7 @@ class Update_contact:
         self.update_contact()
 
     def update_contact(self):
-        Edit_window()
+        Edit_window(self._tree)
 
         # try:
         #     self._tree.item(self._tree.selection())['text'][0]

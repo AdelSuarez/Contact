@@ -25,13 +25,14 @@ class Search_contact(Contact_label):
                     value_message = False
 
                     print(f'Contact:\nName:{contact[0]}\nPhone:{contact[1]}\nEmail:{contact[2]}')
+                    
+                    if self._button_edit['state'] == tk.DISABLED:
+                        self._button_edit['state'] = tk.NORMAL
 
             if value_message:
                 tkinter.messagebox.showinfo(message='Contacto no existe', title=f'El contacto {self._search_entry.get()} No existe')
                 print('Does not exist')
-            
-            if self._button_edit['state'] == tk.DISABLED:
-                self._button_edit['state'] = tk.NORMAL
+
             
 
             self._search_entry.delete(0, tk.END)

@@ -10,7 +10,8 @@ class Delete_contact(Contact_label):
         super().__init__(name_label, phone_label, email_label)
         self._button_edit = button_edit
         self._tree= tree
-        self.contact_select_tree = self._tree.item(self._tree.selection())['text'] 
+        self.contact_select_tree = self._tree.item(self._tree.selection())['text']
+        self.contact_select = self._tree.focus()
         self.contact_verifier()
 
     def contact_verifier(self):
@@ -25,17 +26,29 @@ class Delete_contact(Contact_label):
             self.delete_contact_select()
 
     def delete_contact(self, contact):
+        self.contact_values = self._tree.item(self.contact_select)
+        for values in self.contact_values:
+            if values == 'tags':
+                self.id = self.contact_values[values]
+
+        print(self.id[0])
+        
         # Database connection
         value = tkinter.messagebox.askyesno(message=f'Desea eliminar el contacto {contact}', title='Elimnar contacto')
         if value:
-            session.query(Contact_list).filter(Contact_list.contact_name == contact).delete()
+            session.query(Contact_list).filter(Contact_list.contact_id == self.id[0]).delete()
             session.commit()
             Get_all_contacts(self._tree)
 
     def delete_contact_label(self):
         # Remove the contact found in the labelframe
         if (self.get_name_label != ''):
-            self.delete_contact(self.get_name_label)
+            # self.delete_contact(self.get_name_label)
+            value = tkinter.messagebox.askyesno(message=f'Desea eliminar el contacto {self.get_name_label}', title='Elimnar contacto')
+            if value:
+                session.query(Contact_list).filter(Contact_list.contact_phone == self.get_phone_label).delete()
+                session.commit()
+                Get_all_contacts(self._tree)
 
             self.clear_label()
             self._button_edit['state'] = tk.DISABLED

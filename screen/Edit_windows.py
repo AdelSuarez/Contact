@@ -1,7 +1,16 @@
 import tkinter as tk
+from db.Database import session
+from db.models import Contact_list
 
 class Edit_window:
-    def __init__(self):
+    def __init__(self, tree):
+        self._tree = tree
+        self.contact_select = self._tree.focus()
+        self.init_widgets()
+        self.a()
+
+
+    def init_widgets(self):
         self.win_edit = tk.Toplevel()
         self.settings()
 
@@ -10,13 +19,16 @@ class Edit_window:
         self.option_frame.columnconfigure(1, weight=1)
 
         tk.Label(self.option_frame, text='Nuevo nombre:').grid(row=0, column=0, sticky=tk.W)
-        tk.Entry(self.option_frame).grid(row=0, column=1, sticky=tk.NSEW)
+        self.new_name = tk.Entry(self.option_frame)
+        self.new_name.grid(row=0, column=1, sticky=tk.NSEW)
         
         tk.Label(self.option_frame, text='Nuevo numero: ').grid(row=1, column=0, sticky=tk.W)
-        tk.Entry(self.option_frame).grid(row=1, column=1, sticky=tk.NSEW, pady=5)
+        self.new_phone = tk.Entry(self.option_frame)
+        self.new_phone.grid(row=1, column=1, sticky=tk.NSEW, pady=5)
         
         tk.Label(self.option_frame, text='Nuevo correo: ').grid(row=2, column=0, sticky=tk.W)
-        tk.Entry(self.option_frame).grid(row=2, column=1, sticky=tk.NSEW)
+        self.new_email = tk.Entry(self.option_frame)
+        self.new_email.grid(row=2, column=1, sticky=tk.NSEW)
         
         self.option_frame.grid(row=0, column=0, pady=10, padx=10, sticky=tk.NSEW)
 
@@ -36,5 +48,31 @@ class Edit_window:
         self.win_edit.columnconfigure(1, weight=1)
         self.win_edit.rowconfigure(1, weight=1)
         self.win_edit.title('Editar contacto')
+
+    def a(self):
+        try:
+            self._tree.item(self._tree.selection())['text'][0]
+
+        except IndexError as err:
+            print(err)
+
+        else:
+            self.contacts = session.query(Contact_list.contact_id, Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
+
+            self.contact_values = self._tree.item(self.contact_select)
+            for values in self.contact_values:
+                if values == 'tags':
+                    self.id = self.contact_values[values]
+
+            print(self.id[0])
+
+            for contact in self.contacts:
+                if contact[0] == self.id[0]:
+                    self.new_name.insert(0, contact[1])
+                    self.new_phone.insert(0, contact[2])
+                    self.new_email.insert(0, contact[3])
+
+                    print(f'Contact:\nName:{contact[1]}\nPhone:{contact[2]}\nEmail:{contact[3]}\nID: {contact[0]}')
+
 
 

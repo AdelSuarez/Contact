@@ -10,6 +10,7 @@ class Select_contact(Contact_label):
         super().__init__(name_label, phone_label, email_label)
         self._button_edit = button_edit
         self._tree = tree
+        self.contact_select = self._tree.focus()
         self.get_contact()
 
     def get_contact(self):
@@ -23,11 +24,9 @@ class Select_contact(Contact_label):
         else:
             self.enable_button()
 
-            self.name_select_tree = self._tree.item(self._tree.selection())['text']
-            print(self.name_select_tree)
+            self.contacts = session.query(Contact_list.contact_id ,Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
 
-
-            self.contacts = session.query(Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
+            print(self.contacts)
             
             self.insert_label()
             
@@ -37,13 +36,20 @@ class Select_contact(Contact_label):
             self._button_edit['state'] = tk.NORMAL
 
     def insert_label(self):
-        for contact in self.contacts:
-                if contact[0] == self.name_select_tree:
-                    self._name_label.set(contact[0])
-                    self._phone_label.set(contact[1])
-                    self._email_label.set(contact[2])
+        self.contact_values = self._tree.item(self.contact_select)
+        for values in self.contact_values:
+            if values == 'tags':
+                self.id = self.contact_values[values]
 
-                    print(f'Contact:\nName:{contact[0]}\nPhone:{contact[1]}\nEmail:{contact[2]}')
+        print(self.id[0])
+
+        for contact in self.contacts:
+            if contact[0] == self.id[0]:
+                self._name_label.set(contact[1])
+                self._phone_label.set(contact[2])
+                self._email_label.set(contact[3])
+
+                print(f'Contact:\nName:{contact[1]}\nPhone:{contact[2]}\nEmail:{contact[3]}\nID: {contact[0]}')
                     
                 
 

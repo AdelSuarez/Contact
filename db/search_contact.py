@@ -33,8 +33,6 @@ class Search_contact(Contact_label):
                 tkinter.messagebox.showinfo(message='Contacto no existe', title=f'El contacto {self._search_entry.get()} No existe')
                 print('Does not exist')
 
-            
-
             self._search_entry.delete(0, tk.END)
 
     def validate_empty_fields(self):

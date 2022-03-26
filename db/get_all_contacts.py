@@ -19,7 +19,9 @@ class Get_all_contacts:
         # for (name, phone, email) in contacts:
         #     self._tree.insert('', 0, text=name, values=phone)
 
-    def clear_tree(self):        
+    def clear_tree(self):    
+        # Remove the contacts from the table to update it     
+        
         self.all_contact = self._tree.get_children()
         for contact in self.all_contact:
             self._tree.delete(contact)

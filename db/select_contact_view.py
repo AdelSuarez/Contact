@@ -5,10 +5,11 @@ from db.models import Contact_list
 from components.Contact import Contact_label
 
 
-class Select_contact(Contact_label):
-    def __init__(self, name_label, phone_label, email_label, button_edit, tree):
+class Select_contact_view(Contact_label):
+    def __init__(self, name_label, phone_label, email_label, button_edit, button_delete, tree):
         super().__init__(name_label, phone_label, email_label)
         self._button_edit = button_edit
+        self._button_delete = button_delete
         self._tree = tree
         self.contact_select = self._tree.focus()
         self.get_contact()
@@ -32,8 +33,9 @@ class Select_contact(Contact_label):
             
 
     def enable_button(self):
-        if self._button_edit['state'] == tk.DISABLED:
+        if self._button_edit['state'] == tk.DISABLED and self._button_delete['state'] == tk.DISABLED:
             self._button_edit['state'] = tk.NORMAL
+            self._button_delete['state'] = tk.NORMAL
 
     def insert_label(self):
         self.contact_values = self._tree.item(self.contact_select)

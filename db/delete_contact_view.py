@@ -1,7 +1,7 @@
 from components.Contact import Contact_label
 from db.Database import session
 from db.models import Contact_list
-from db.get_all_contacts import Get_all_contacts
+from components.get_all_contacts import Get_all_contacts
 import tkinter.messagebox
 import tkinter as tk
 

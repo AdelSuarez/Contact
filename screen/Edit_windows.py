@@ -1,6 +1,7 @@
 import tkinter as tk
 from db.Database import session
 from db.models import Contact_list
+from style import style
 
 class Edit_window:
     def __init__(self, tree):
@@ -36,8 +37,8 @@ class Edit_window:
         self.container_button.columnconfigure(0, weight=1)
         self.container_button.columnconfigure(1, weight=1)
         
-        tk.Button(self.container_button, text='Guardar', command=lambda:print('Guardando')).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
-        tk.Button(self.container_button, text='Cancelar', command=lambda:self.win_edit.destroy()).grid(row=0, column=1, sticky=tk.NSEW, padx=10)
+        tk.Button(self.container_button, text='Guardar', **style.button_style_save, command=lambda:print('Guardando')).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
+        tk.Button(self.container_button, text='Cancelar', **style.button_style_delete, command=lambda:self.win_edit.destroy()).grid(row=0, column=1, sticky=tk.NSEW, padx=10)
 
         self.container_button.grid(row=1, column=0, sticky=tk.NSEW, padx=10, pady=10)
 

@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.messagebox
 from db.Database import session
 from db.models import Contact_list
-from db.get_all_contacts import Get_all_contacts
+from components.get_all_contacts import Get_all_contacts
 from components.Contact import Contact_label
 
 class Delete_contact_select(Contact_label):

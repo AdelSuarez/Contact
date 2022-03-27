@@ -2,7 +2,7 @@ from db.models import Contact_list
 from db.Database import session
 import tkinter as tk
 import tkinter.messagebox
-from db.get_all_contacts import Get_all_contacts
+from components.get_all_contacts import Get_all_contacts
 from components.Contact import Contact_entry
 from style import style
 

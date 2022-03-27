@@ -6,9 +6,9 @@ class Contact_entry:
         self._phone_entry = phone_entry
         self._email_entry = email_entry
 
-        self.get_name_entry = self._name_entry.get()
-        self.get_phone_entry = self._phone_entry.get()
-        self.get_email_entry = self._email_entry.get()
+        self.get_name_entry = self._name_entry.get().strip()
+        self.get_phone_entry = self._phone_entry.get().strip()
+        self.get_email_entry = self._email_entry.get().strip()
 
     def clear_inputs(self):
         self._name_entry.delete(0, tk.END)

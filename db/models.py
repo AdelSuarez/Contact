@@ -19,6 +19,3 @@ class Contact_list(Base):
 
     def __str__(self) -> str:
         return self.contact_name
-
-# if __name__ == '__main__':
-#     Base.metadata.create_all(engine)

@@ -3,9 +3,10 @@ from components.get_all_contacts import Get_all_contacts
 from db.select_contact_view import Select_contact_view
 from db.delete_contact_select import Delete_contact_select
 from db.delete_contact_view import Delete_contact_view
-from db.update_contact import Update_contact
+from db.update_contact_select import Update_contact_select
 from db.search_contact import Search_contact
 from components.clear_view import Clear_view
+from screen.Edit_windows import Edit_window
 import tkinter as tk
 from tkinter import StringVar, ttk
 from style import style
@@ -81,7 +82,7 @@ class Main_windows(tk.Frame):
 
         tk.Button(self.container_buttons, text='Ver', **style.button_style_save, relief=tk.FLAT, overrelief=tk.RAISED, command=lambda:Select_contact_view(name, phone, email, self.button_edit, self.button_delete, self.tree), width=10).grid(row=0, column=0, padx=5, sticky=tk.NSEW)
 
-        self.button_edit = tk.Button(self.container_buttons, text='Editar', **style.button_style_edit, relief=tk.FLAT, overrelief=tk.RAISED, state=tk.DISABLED, command=lambda:Update_contact(self.tree), width=10)
+        self.button_edit = tk.Button(self.container_buttons, text='Editar', **style.button_style_edit, relief=tk.FLAT, overrelief=tk.RAISED, state=tk.DISABLED, command=lambda:Edit_window(self.tree, 'view'), width=10)
         self.button_edit.grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
         self.button_delete = tk.Button(self.container_buttons, text='Eliminar', **style.button_style_delete, relief=tk.FLAT, overrelief=tk.RAISED, state=tk.DISABLED, command=lambda:Delete_contact_view(name, phone, email, self.button_edit, self.button_delete, self.tree), width=10)
@@ -98,7 +99,7 @@ class Main_windows(tk.Frame):
         
         self.search = tk.Entry(self.container_search)
         self.search.grid(row=0, column=0, padx=5, sticky=tk.NSEW)
-        tk.Button(self.container_search, image=self.logo_img_search, bd=0, command=lambda:Search_contact(self.search, name, phone, email, self.button_edit)).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
+        tk.Button(self.container_search, image=self.logo_img_search, bd=0, command=lambda:Search_contact(self.search, name, phone, email, self.button_edit, self.button_delete)).grid(row=0, column=1, padx=5, sticky=tk.NSEW)
 
         self.container_search.grid(row=4, column=0, pady=15, padx=10, sticky=tk.NSEW)
 
@@ -128,7 +129,7 @@ class Main_windows(tk.Frame):
         self.button_table = tk.Frame(self)
         tk.Button(self.button_table, image=self.logo_img_delete, bd=0, command=lambda:Delete_contact_select(name, phone, email, self.button_edit, self.button_delete, self.tree)).grid(row=0, column=0, pady=5)
 
-        tk.Button(self.button_table, image=self.logo_img_edit, bd=0, command=lambda:print('edit')).grid(row=1, column=0, pady=5)
+        tk.Button(self.button_table, image=self.logo_img_edit, bd=0, command=lambda:Edit_window(self.tree, 'selection')).grid(row=1, column=0, pady=5)
         self.button_table.grid(row=0, column=3, padx=10, pady=10, sticky=tk.NSEW)
   
 

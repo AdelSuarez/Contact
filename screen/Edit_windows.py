@@ -1,9 +1,12 @@
 import tkinter as tk
 from style import style
 from db.update_contact_select import Update_contact_select
+from db.update_contact_view import Update_contatc_view
+from components.Contact import Contact_label
 
-class Edit_window:
-    def __init__(self, tree, selection):
+class Edit_window(Contact_label):
+    def __init__(self, tree, selection, name_label, phone_label, email_label):
+        super().__init__(name_label, phone_label, email_label)
         self._selection = selection
         self._tree = tree
         self.init_widgets()
@@ -53,7 +56,7 @@ class Edit_window:
         if self._selection == 'selection':
             Update_contact_select(self.new_name, self.new_phone, self.new_email, self._tree)
         elif self._selection== 'view':
-            print('view')
+            Update_contatc_view(self._name_label, self._phone_label, self._email_label, self.new_name, self.new_phone, self.new_email)
 
 
 

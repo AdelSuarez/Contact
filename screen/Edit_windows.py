@@ -39,7 +39,7 @@ class Edit_window(Contact_label):
         self.container_button.columnconfigure(0, weight=1)
         self.container_button.columnconfigure(1, weight=1)
         
-        tk.Button(self.container_button, text='Guardar', **style.button_style_save, command=lambda:print('Guardando')).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
+        
         tk.Button(self.container_button, text='Cancelar', **style.button_style_delete, command=lambda:self.win_edit.destroy()).grid(row=0, column=1, sticky=tk.NSEW, padx=10)
 
         self.container_button.grid(row=1, column=0, sticky=tk.NSEW, padx=10, pady=10)
@@ -54,9 +54,16 @@ class Edit_window(Contact_label):
 
     def v(self):
         if self._selection == 'selection':
-            Update_contact_select(self.new_name, self.new_phone, self.new_email, self._tree)
+            Update_contact_select(self.new_name, self.new_phone, self.new_email, self._tree, self.win_edit).show_data()
+            
+            tk.Button(self.container_button, text='Guardar', **style.button_style_save, command=lambda:Update_contact_select(self.new_name, self.new_phone, self.new_email, self._tree, self.win_edit).update_contact()).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
+
         elif self._selection== 'view':
             Update_contatc_view(self._name_label, self._phone_label, self._email_label, self.new_name, self.new_phone, self.new_email)
+            tk.Button(self.container_button, text='Guardar', **style.button_style_save, command=lambda:print('ver')).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
+
+
+# tk.Button(self.container_button, text='Guardar', **style.button_style_save, command=lambda:Update_contact_select(self.new_name, self.new_phone, self.new_email, self._tree).update_contact()).grid(row=0, column=0, sticky=tk.NSEW, padx=10)
 
 
 

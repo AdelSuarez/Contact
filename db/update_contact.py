@@ -2,24 +2,34 @@ from db.Database import session
 from db.models import Contact_list
 from components.get_all_contacts import Get_all_contacts
 from style import style
+from components.Contact import Contact_label
 
-class Update_contact_select:
-    def __init__(self, new_name, new_phone, new_email, tree, win_edit, name_label, phone_label):
+
+class Update_contact(Contact_label):
+    def __init__(self, select,  new_name, new_phone, new_email, tree, win_edit, name_label_view, phone_label_view, email_label_view):
+        super().__init__(name_label_view, phone_label_view, email_label_view)
+        self._select = select
         self._tree = tree
         self._win_edit = win_edit
         self.contact_select = self._tree.focus()
         self._new_name = new_name
         self._new_phone = new_phone
         self._new_email = new_email
-        self._name_label = name_label
-        self._phone_label = phone_label
 
-    def show_data(self):
+        self.contacts = session.query(Contact_list.contact_id, Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
+        self.contact_values = self._tree.item(self.contact_select)
+
+    def select_show_data(self):
+        if self._select =='selection':
+            self.data_select()
+        
+        elif self._select == 'view':
+            self.data_view()
+
+    def data_select(self):
 
         global id_contact
-        self.contacts = session.query(Contact_list.contact_id, Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
 
-        self.contact_values = self._tree.item(self.contact_select)
         for values in self.contact_values:
             if values == 'tags':
                 self.id = self.contact_values[values]
@@ -34,6 +44,16 @@ class Update_contact_select:
                 self._new_email.insert(0, contact[3])
 
                 print(f'Contact:\nName:{contact[1]}\nPhone:{contact[2]}\nEmail:{contact[3]}\nID: {contact[0]}')
+
+    def data_view(self):
+        global id_contact
+
+        for contact in self.contacts:
+            if contact[1] == self.get_name_label and contact[2] ==self.get_phone_label:
+                id_contact = contact[0]
+                self._new_name.insert(0, contact[1])
+                self._new_phone.insert(0, contact[2])
+                self._new_email.insert(0, contact[3])
 
     def update_contact(self):
         print(id_contact)

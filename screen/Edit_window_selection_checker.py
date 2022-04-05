@@ -4,11 +4,13 @@ from screen.Edit_windows import Edit_window
 
 
 class Selection_checker(Contact_label):
-    def __init__(self, tree, selection, name_label, phone_label, email_label):
+    def __init__(self, tree, selection, name_label, phone_label, email_label, button_delete, button_edit):
         super().__init__(name_label, phone_label, email_label)
         self._tree = tree
         self.contact_select = self._tree.focus()
         self._selection = selection
+        self._button_delete = button_delete
+        self._button_edit = button_edit
         self.selection()
 
     def selection(self):
@@ -21,8 +23,8 @@ class Selection_checker(Contact_label):
                 tkinter.messagebox.showinfo(message='Debe seleccionar un contacto.', title='No hay seleccion.')
 
             else:
-                Edit_window(self._tree, self._selection, self._name_label, self._phone_label, self._email_label)
+                Edit_window(self._tree, self._selection, self._name_label, self._phone_label, self._email_label, self._button_delete, self._button_edit)
         
         elif self._selection == 'view':
-            Edit_window(self._tree, self._selection, self._name_label, self._phone_label, self._email_label)
+            Edit_window(self._tree, self._selection, self._name_label, self._phone_label, self._email_label, self._button_delete, self._button_edit)
             

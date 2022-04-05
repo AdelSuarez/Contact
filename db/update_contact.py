@@ -3,10 +3,11 @@ from db.models import Contact_list
 from components.get_all_contacts import Get_all_contacts
 from style import style
 from components.Contact import Contact_label
+from components.clear_view import Clear_view
 
 
 class Update_contact(Contact_label):
-    def __init__(self, select,  new_name, new_phone, new_email, tree, win_edit, name_label_view, phone_label_view, email_label_view):
+    def __init__(self, select,  new_name, new_phone, new_email, tree, win_edit, name_label_view, phone_label_view, email_label_view, name_label_color, phone_label_color, button_delete, button_edit):
         super().__init__(name_label_view, phone_label_view, email_label_view)
         self._select = select
         self._tree = tree
@@ -15,6 +16,10 @@ class Update_contact(Contact_label):
         self._new_name = new_name
         self._new_phone = new_phone
         self._new_email = new_email
+        self._name_color = name_label_color
+        self._phone_color = phone_label_color
+        self._button_delete = button_delete
+        self._button_edit = button_edit
 
         self.contacts = session.query(Contact_list.contact_id, Contact_list.contact_name, Contact_list.contact_phone, Contact_list.contact_email).all()
         self.contact_values = self._tree.item(self.contact_select)
@@ -27,7 +32,6 @@ class Update_contact(Contact_label):
             self.data_view()
 
     def data_select(self):
-
         global id_contact
 
         for values in self.contact_values:
@@ -59,10 +63,10 @@ class Update_contact(Contact_label):
         print(id_contact)
 
         if self.validate_empty_fields(self._new_name.get()):
-            self._name_label['fg'] = style.BLACK
+            self._name_color['fg'] = style.BLACK
 
             if self.validate_empty_fields(self._new_phone.get()):
-                self._phone_label['fg'] = style.BLACK
+                self._phone_color['fg'] = style.BLACK
 
                 self.contact = session.query(Contact_list).filter(Contact_list.contact_id == id_contact).first()
                 print(self.contact)
@@ -74,10 +78,16 @@ class Update_contact(Contact_label):
                 session.commit()
                 Get_all_contacts(self._tree)
                 self._win_edit.destroy()
+                self.clear()
+                
             else:
-                self._phone_label['fg'] = style.RED
+                self._phone_color['fg'] = style.RED
         else:
-            self._name_label['fg'] = style.RED
+            self._name_color['fg'] = style.RED
 
     def validate_empty_fields(self, entry):
         return len(entry) != 0
+
+    def clear(self):
+        if self._select == 'view':
+            Clear_view(self._name_label, self._phone_label, self._email_label, self._button_delete, self._button_edit)

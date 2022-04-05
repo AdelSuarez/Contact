@@ -4,10 +4,12 @@ from components.Contact import Contact_label
 from db.update_contact import Update_contact
 
 class Edit_window(Contact_label):
-    def __init__(self, tree, selection, name_label, phone_label, email_label):
+    def __init__(self, tree, selection, name_label, phone_label, email_label, button_delete, button_edit):
         super().__init__(name_label, phone_label, email_label)
         self._selection = selection
         self._tree = tree
+        self._button_delete = button_delete
+        self._button_edit = button_edit
         self.init_widgets()
         self.select_button()
 
@@ -30,8 +32,7 @@ class Edit_window(Contact_label):
         self.new_phone = tk.Entry(self.option_frame, width=30)
         self.new_phone.grid(row=1, column=1, sticky=tk.NSEW, pady=5)
         
-        self.email_label = tk.Label(self.option_frame, text='Nuevo correo: ')
-        self.email_label.grid(row=2, column=0, sticky=tk.W)
+        tk.Label(self.option_frame, text='Nuevo correo: ').grid(row=2, column=0, sticky=tk.W)
         self.new_email = tk.Entry(self.option_frame, width=30)
         self.new_email.grid(row=2, column=1, sticky=tk.NSEW)
         
@@ -55,7 +56,7 @@ class Edit_window(Contact_label):
         self.win_edit.title('Editar contacto')
 
     def select_button(self):
-        update_select = Update_contact(self._selection, self.new_name, self.new_phone, self.new_email, self._tree, self.win_edit,self._name_label, self._phone_label, self._email_label)
+        update_select = Update_contact(self._selection, self.new_name, self.new_phone, self.new_email, self._tree, self.win_edit,self._name_label, self._phone_label, self._email_label, self.name_label, self.phone_label, self._button_delete, self._button_edit)
         if self._selection == 'selection':
 
             update_select.select_show_data()
